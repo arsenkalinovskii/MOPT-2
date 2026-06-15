@@ -1,0 +1,6 @@
+from optimizers import grad_descent_armijo, grad_descent_wolfe, grad_descent_cnst, grad_descent_steepest
+
+descent_armijo = grad_descent_armijo.grad_descent_armijo
+descent_wolfe = grad_descent_wolfe.grad_descent_wolfe
+descent_cnst = grad_descent_cnst.grad_descent_cnst
+descent_steepest = grad_descent_steepest.grad_descent_steepest
