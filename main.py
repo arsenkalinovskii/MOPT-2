@@ -153,7 +153,7 @@ def task3(output_dir):
 def task46table(output_dir, res, filename_csv):
     with open(os.path.join(output_dir, filename_csv), 'w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['Epsilon', 'N_Iter', 'F_Call_Count', 'Grad_Call_Count'])
+        writer.writerow(['Epsilon', 'N_Iter', 'F_Call_Count', 'Grad_Call_Count', 'X_min_x', 'X_min_y', 'F_min'])
         for item in res:
             writer.writerow(list(item))
         file.close()
@@ -191,7 +191,7 @@ def task4(output_dir):
             for eps in epsilons:
                 optimizer = opt(f.f, f.grad_f, eps, starting_pos.copy(), max_iter=MAX_N_ITER)
                 xmin, fmin = optimizer.find_minimum()
-                res.append((eps, optimizer.iteration_count, optimizer.function_call_count, optimizer.grad_call_count))
+                res.append((eps, optimizer.iteration_count, optimizer.function_call_count, optimizer.grad_call_count, xmin[0], xmin[1], fmin))
                 it_counts.append(optimizer.iteration_count)
                 function_call_counts.append(optimizer.function_call_count)
                 grad_call_counts.append(optimizer.grad_call_count)
@@ -201,6 +201,9 @@ def task4(output_dir):
             filename_plt = filename_base + '_plot.png'
             task46table(output_dir, res, filename_csv)
             task46plots(output_dir, epsilons, it_counts, function_call_counts, grad_call_counts, filename_plt, pairname)
+            optimizer = opt(f.f, f.grad_f, 1e-5, starting_pos.copy(), max_iter=MAX_N_ITER)
+            build_trajectory_plot(output_dir, optimizer, f)
+
 
 
 def task56table(output_dir, res, filename_csv):
@@ -242,12 +245,21 @@ def task61(output_dir):
     fs = funcs[:2]
     for f in fs:
         res = []
+        it_counts = []
+        function_call_counts = []
+        grad_call_counts = []
         for eps in epsilons:
             opt = descent_steepest(f.f, f.grad_f, eps, starting_pos.copy())
-            opt.find_minimum()
-            res.append((eps, opt.iteration_count, opt.function_call_count, opt.grad_call_count))
+            xmin, fmin = opt.find_minimum()
+            it_counts.append(opt.iteration_count)
+            function_call_counts.append(opt.function_call_count)
+            grad_call_counts.append(opt.grad_call_count)
+            res.append((eps, opt.iteration_count, opt.function_call_count, opt.grad_call_count, xmin[0], xmin[1], fmin))
         filename_csv = f'task6_[Steepest-{f}]_table.csv'
+        filename_plt = f'task6_[Steepest-{f}]_table.png'
+        pairname = f'[Steepest-{f}]'
         task46table(output_dir, res, filename_csv)
+        task46plots(output_dir, epsilons, it_counts, function_call_counts, grad_call_counts, filename_plt, pairname)
 
 
 def task62(output_dir):
@@ -269,11 +281,11 @@ def task6(output_dir):
 
 
 def main():
-    task1("task1")
-    task2("task2")
-    task3("task3")
-    task4("task4")
-    task5("task5")
+    # task1("task1")
+    # task2("task2")
+    # task3("task3")
+    # task4("task4")
+    # task5("task5")
     task6("task6")
 
 

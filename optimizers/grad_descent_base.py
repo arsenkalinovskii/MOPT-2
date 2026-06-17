@@ -32,6 +32,12 @@ class grad_descent_base(base_optimizer):
         elif self.criteria == Criteria.POINT_DIFF:
             if self.point_diff is None or np.linalg.norm(self.point_diff) >= self.eps:
                 return False
+        elif self.criteria == Criteria.SIGNIFICANT_DECREASE:
+            if self.function_diff is None or self.grad_cur_pos is None:
+                return False
+            norm = np.linalg.norm(self.grad_cur_pos)
+            if norm != 0 and self.function_diff / norm >= self.eps:
+                return False
         return True
 
     def find_minimum(self) -> tuple[np.ndarray, float]:

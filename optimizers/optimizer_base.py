@@ -9,6 +9,7 @@ class Criteria(Enum):
     NORM_GRAD = 0
     FUNCTION_DIFF = 1
     POINT_DIFF = 2
+    SIGNIFICANT_DECREASE = 3
 
 
 class base_optimizer(ABC):
