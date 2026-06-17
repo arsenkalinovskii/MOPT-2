@@ -4,8 +4,10 @@ from typing import List
 from optimizers.optimizer_base import base_optimizer, Criteria
 import numpy as np
 
+
 class grad_descent_base(base_optimizer):
-    def __init__(self, fun, grad_f, tol: float, starting_pos, name : str, criteria : Criteria = Criteria.NORM_GRAD, max_iter: int = 1000, do_history: bool = False):
+    def __init__(self, fun, grad_f, tol: float, starting_pos, name: str, criteria: Criteria = Criteria.NORM_GRAD,
+                 max_iter: int = 1000, do_history: bool = False):
         super().__init__(fun, grad_f, tol, starting_pos, name, criteria)
         self.history = []
         self.max_iter = max_iter
@@ -56,10 +58,10 @@ class grad_descent_base(base_optimizer):
         self.f_cur_pos = None
         self.point_diff = None
 
-    def f_tilde(self, pk, alpha : float) -> float:
+    def f_tilde(self, pk, alpha: float) -> float:
         return self.calculate_function(self.step(alpha, pk))
 
-    def step(self, alpha : float, direction):
+    def step(self, alpha: float, direction):
         return self.cur_pos + alpha * direction
 
     @abstractmethod

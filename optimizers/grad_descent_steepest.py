@@ -2,9 +2,11 @@ from optimizers.optimizer_base import Criteria
 from optimizers.grad_descent_base import grad_descent_base
 import scipy.optimize as opt
 
+
 class grad_descent_steepest(grad_descent_base):
-    def __init__(self, fun, grad_f, tol: float, starting_pos, linear_optimizer = opt.minimize_scalar, criteria: Criteria = Criteria.NORM_GRAD,
-                 max_iter: int = 1000, do_history: bool = False, interval_increase : float = 1):
+    def __init__(self, fun, grad_f, tol: float, starting_pos, linear_optimizer=opt.minimize_scalar,
+                 criteria: Criteria = Criteria.NORM_GRAD,
+                 max_iter: int = 1000, do_history: bool = False, interval_increase: float = 1):
         super().__init__(fun, grad_f, tol, starting_pos, "Steepest", criteria, max_iter, do_history)
         self.linear_optimizer = linear_optimizer
         self.interval_increase = interval_increase

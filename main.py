@@ -24,10 +24,12 @@ funcs = [
 
 steepest_linear_opt = opt.minimize_scalar
 
+
 def prepare(output_dir):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     [f.unlink() for f in Path(output_dir).iterdir() if f.is_file()]
+
 
 def task1p2(output_dir, fs, steps, MAX_N_ITER):
     prepare(output_dir)
@@ -66,14 +68,16 @@ def task1p2(output_dir, fs, steps, MAX_N_ITER):
         plt.savefig(file_path, dpi=300, bbox_inches='tight')
         plt.close()
 
+
 def task1(output_dir):
-    task1p2(output_dir, funcs[:2], [10**(-i) for i in range(1, 7)], 1_000_000)
+    task1p2(output_dir, funcs[:2], [10 ** (-i) for i in range(1, 7)], 1_000_000)
 
 
 def task2(output_dir):
-    task1p2(output_dir, funcs[2:], [10**(-i) for i in range(1, 4)], 100_000)
+    task1p2(output_dir, funcs[2:], [10 ** (-i) for i in range(1, 4)], 100_000)
 
-def build_trajectory_plot(output_dir, optimizer, f, string = ""):
+
+def build_trajectory_plot(output_dir, optimizer, f, string=""):
     x_range = (-6, 6)
     y_range = (-6, 6)
     optimizer.do_history = True
@@ -119,29 +123,32 @@ def build_trajectory_plot(output_dir, optimizer, f, string = ""):
     plt.close()
     return optimizer.iteration_count, optimizer.function_call_count, optimizer.grad_call_count
 
+
 def task31(output_dir):
     fs = funcs[:2]
     steps = [1e-3, 1e-3]
     starting_pos = np.array([2.0, 2.5])
     for i in range(2):
-        optimizer = descent_cnst(fs[i].f, fs[i].grad_f, 1e-8, starting_pos.copy(), steps[i], max_iter=10_000, do_history=True)
+        optimizer = descent_cnst(fs[i].f, fs[i].grad_f, 1e-8, starting_pos.copy(), steps[i], max_iter=10_000,
+                                 do_history=True)
         build_trajectory_plot(output_dir, optimizer, fs[i])
-
 
 
 def task32(output_dir):
     fs = funcs[2:]
-    steps = [10**(-i) for i in range(1, 4)]
+    steps = [10 ** (-i) for i in range(1, 4)]
     starting_pos = np.array([2.0, 2.5])
     for f in fs:
         for step in steps:
             optimizer = descent_cnst(f.f, f.grad_f, 1e-8, starting_pos.copy(), step, max_iter=10_000, do_history=True)
             build_trajectory_plot(output_dir, optimizer, f)
 
+
 def task3(output_dir):
     prepare(output_dir)
     task31(output_dir)
     task32(output_dir)
+
 
 def task46table(output_dir, res, filename_csv):
     with open(os.path.join(output_dir, filename_csv), 'w', newline='') as file:
@@ -151,9 +158,11 @@ def task46table(output_dir, res, filename_csv):
             writer.writerow(list(item))
         file.close()
 
+
 def task46plots(output_dir, epsilons, it_counts, function_call_counts, grad_call_counts, filename_plt, pairname):
     plt.plot(epsilons, it_counts, label='Iterations', linewidth=2, linestyle='--', color="red", marker='o')
-    plt.plot(epsilons, function_call_counts, label='Function calls', linewidth=2, linestyle='--', color="blue", marker='s')
+    plt.plot(epsilons, function_call_counts, label='Function calls', linewidth=2, linestyle='--', color="blue",
+             marker='s')
     plt.plot(epsilons, grad_call_counts, label='Grad calls', linewidth=2, linestyle='--', color="green", marker='^')
     plt.legend()
     plt.xscale('log')
@@ -193,6 +202,7 @@ def task4(output_dir):
             task46table(output_dir, res, filename_csv)
             task46plots(output_dir, epsilons, it_counts, function_call_counts, grad_call_counts, filename_plt, pairname)
 
+
 def task56table(output_dir, res, filename_csv):
     with open(os.path.join(output_dir, filename_csv), 'w', newline='') as file:
         writer = csv.writer(file)
@@ -201,13 +211,15 @@ def task56table(output_dir, res, filename_csv):
             writer.writerow(list(item))
         file.close()
 
+
 starting_points = [
-        np.array([2.0, 2.5]),
-        np.array([3.0, 3.0]),
-        np.array([4.0, 1.0]),
-        np.array([0.0, 2.0]),
-        np.array([-1.0, 3.0]),
-    ]
+    np.array([2.0, 2.5]),
+    np.array([3.0, 3.0]),
+    np.array([4.0, 1.0]),
+    np.array([0.0, 2.0]),
+    np.array([-1.0, 3.0]),
+]
+
 
 def task5(output_dir):
     prepare(output_dir)
@@ -218,9 +230,11 @@ def task5(output_dir):
             res = []
             for starting_pos in starting_points:
                 optimizer = opt(f.f, f.grad_f, 1e-8, starting_pos.copy(), max_iter=10_000)
-                res.append((starting_pos[0], starting_pos[1], *build_trajectory_plot(output_dir, optimizer, f,f'Point({starting_pos[0]}, {starting_pos[1]})')))
+                res.append((starting_pos[0], starting_pos[1], *build_trajectory_plot(output_dir, optimizer, f,
+                                                                                     f'Point({starting_pos[0]}, {starting_pos[1]})')))
             filename_csv = f'task5_[{temp}-{f}]_table.csv'
             task56table(output_dir, res, filename_csv)
+
 
 def task61(output_dir):
     epsilons = [10 ** (-i) for i in range(1, 9)]
@@ -235,6 +249,7 @@ def task61(output_dir):
         filename_csv = f'task6_[Steepest-{f}]_table.csv'
         task46table(output_dir, res, filename_csv)
 
+
 def task62(output_dir):
     fs = funcs[2:]
     for f in fs:
@@ -245,6 +260,7 @@ def task62(output_dir):
                                                                                  f'Point({starting_pos[0]}, {starting_pos[1]})')))
         filename_csv = f'task6_[Steepest-{f}]_table.csv'
         task56table(output_dir, res, filename_csv)
+
 
 def task6(output_dir):
     prepare(output_dir)
@@ -259,6 +275,7 @@ def main():
     task4("task4")
     task5("task5")
     task6("task6")
+
 
 if __name__ == "__main__":
     main()

@@ -6,7 +6,7 @@ from optimizers.grad_descent_base import grad_descent_base
 
 class grad_descent_wolfe(grad_descent_base):
     def __init__(self, fun, grad_f, tol: float, starting_pos: np.ndarray, criteria: Criteria = Criteria.NORM_GRAD,
-                 max_iter: int = 1000, do_history: bool = False, c1: float = 0.1, c2 : float = 0.2,
+                 max_iter: int = 1000, do_history: bool = False, c1: float = 0.1, c2: float = 0.2,
                  q: float = 0.7, alpha0: float = 1, max_backtrack: int = 100):
         super().__init__(fun, grad_f, tol, starting_pos, "Wolfe", criteria, max_iter, do_history)
         self.c1 = c1
@@ -35,7 +35,7 @@ class grad_descent_wolfe(grad_descent_base):
             alpha_i, alpha_prev = (alpha_i + self.alpha0) / 2, alpha_i
         return alpha_i
 
-    def zoom(self, alpha_lo : float, alpha_hi: float, norm_gk_sqr : float) -> float:
+    def zoom(self, alpha_lo: float, alpha_hi: float, norm_gk_sqr: float) -> float:
         pk = -self.grad_cur_pos
         f_tilde_lo = self.f_cur_pos
         for i in range(self.max_backtrack):

@@ -10,8 +10,9 @@ class Criteria(Enum):
     FUNCTION_DIFF = 1
     POINT_DIFF = 2
 
+
 class base_optimizer(ABC):
-    def __init__(self, fun, grad_f, tol : float, starting_pos : numpy.ndarray, name : str, criteria : Criteria):
+    def __init__(self, fun, grad_f, tol: float, starting_pos: numpy.ndarray, name: str, criteria: Criteria):
         self.function = fun
         self.grad_f = grad_f
         self.eps = tol
@@ -22,7 +23,6 @@ class base_optimizer(ABC):
 
         self.function_call_count = 0
         self.grad_call_count = 0
-
 
     def calculate_function(self, x) -> float:
         result = self.function(x)
