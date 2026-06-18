@@ -281,12 +281,12 @@ def task6(output_dir):
 
 
 def main():
-    # task1("task1")
+    task1("task1")
     # task2("task2")
     # task3("task3")
     # task4("task4")
     # task5("task5")
-    task6("task6")
+    # task6("task6")
 
 
 if __name__ == "__main__":
